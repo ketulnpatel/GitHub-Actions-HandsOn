@@ -1,0 +1,65 @@
+name: Env Variables Demo
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+# Workflow-level env — available to ALL jobs
+env:
+  APP_NAME: handbook
+  ENVIRONMENT: dev
+
+jobs:
+  # ─────────────────────────────────────────────────────
+  # Job 1: Uses workflow-level env as-is
+  # ─────────────────────────────────────────────────────
+  show-workflow-env:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Show workflow env and built-in vars
+        run: |
+          echo "App name: $APP_NAME"
+          echo "Environment: $ENVIRONMENT"
+          echo "Commit SHA: $GITHUB_SHA"
+          echo "Triggered by: $GITHUB_ACTOR"
+          echo "Branch: $GITHUB_REF_NAME"
+
+  # ─────────────────────────────────────────────────────
+  # Job 2: Overrides ENVIRONMENT at job level
+  # ─────────────────────────────────────────────────────
+  show-job-env:
+    runs-on: ubuntu-latest
+    env:
+      ENVIRONMENT: staging   # ← overrides workflow-level "dev"
+    steps:
+      - name: Show job-level env
+        run: |
+          echo "App name: $APP_NAME"
+          echo "Environment: $ENVIRONMENT"
+
+  # ─────────────────────────────────────────────────────
+  # Job 3: Overrides ENVIRONMENT at job AND step level
+  # ─────────────────────────────────────────────────────
+  show-step-env:
+    runs-on: ubuntu-latest
+    env:
+      ENVIRONMENT: staging   # job-level override
+    steps:
+      - name: Step A — uses job-level env
+        run: echo "Environment: $ENVIRONMENT"
+
+      - name: Step B — overrides at step level
+        env:
+          ENVIRONMENT: production   # ← overrides job-level
+        run: echo "Environment: $ENVIRONMENT"
+
+
+
+
+
+
+   
+
+    
