@@ -32,21 +32,6 @@ jobs:
           echo "App name: $APP_NAME"
           echo "Environment: $ENVIRONMENT"
 
-  show-step-env:
-    runs-on: ubuntu-latest
-    env:
-      ENVIRONMENT: staging
-    steps:
-      - name: Step A uses job-level env
-        run: echo "Environment: $ENVIRONMENT"
-
-      - name: Step B overrides at step level
-        env:
-          ENVIRONMENT: production
-        run: echo "Environment: $ENVIRONMENT"
-
-
-
 
    
 
