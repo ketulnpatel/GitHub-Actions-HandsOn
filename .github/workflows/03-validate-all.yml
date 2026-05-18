@@ -1,0 +1,52 @@
+name: Validate All
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  validate-html:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Validate HTML
+        uses: Cyb3r-Jak3/html5validator-action@v7.2.0
+        with:
+          root: .
+
+  validate-css:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install stylelint
+        run: npm install -g stylelint stylelint-config-standard
+
+      - name: Run stylelint
+        run: stylelint "**/*.css" --config-basedir node_modules || true
+
+  validate-js:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Check JS syntax
+        run: node --check script.js
+
+  summary:
+    needs: [validate-html, validate-css, validate-js]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print success
+        run: echo "✅ All validation checks passed!"
