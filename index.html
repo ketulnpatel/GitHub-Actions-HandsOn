@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GitHub Actions — Hands-On Handbook by Ketul Patel</title>
+  <meta name="description" content="A practical, growing handbook of GitHub Actions concepts and YAML examples — built hands-on by Ketul Patel." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Background grain & grid -->
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="bg-grain" aria-hidden="true"></div>
+
+  <!-- Top status bar -->
+  <header class="topbar">
+    <div class="topbar__left">
+      <span class="status-dot" aria-hidden="true"></span>
+      <span class="topbar__label">build</span>
+      <span class="topbar__value">passing</span>
+    </div>
+    <div class="topbar__center">
+      <span class="topbar__path">~/devops/github-actions-handson</span>
+    </div>
+    <div class="topbar__right">
+      <span class="topbar__label">v</span>
+      <span class="topbar__value">0.1.0</span>
+    </div>
+  </header>
+
+  <div class="layout">
+    <!-- Sidebar Nav -->
+    <aside class="sidebar">
+      <div class="sidebar__brand">
+        <div class="brand__mark">
+          <svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor" aria-hidden="true">
+            <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.4 3-.405 1.02.005 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+          </svg>
+        </div>
+        <div class="brand__text">
+          <h1 class="brand__title">Actions<span class="brand__title-accent">.</span></h1>
+          <p class="brand__sub">a hands-on handbook</p>
+        </div>
+      </div>
+
+      <nav class="nav" aria-label="Topics">
+        <p class="nav__group">Level 1 — Basics</p>
+        <ul class="nav__list">
+          <li><a href="#what-is" class="nav__link is-active">1.1 What is GitHub Actions</a></li>
+          <li><a href="#structure" class="nav__link">1.2 Workflow Structure</a></li>
+          <li><a href="#triggers" class="nav__link">1.3 Triggers</a></li>
+          <li><a href="#first-workflow" class="nav__link">1.4 Your First Workflow</a></li>
+        </ul>
+
+        <p class="nav__group nav__group--muted">Level 2 — Intermediate</p>
+        <ul class="nav__list nav__list--muted">
+          <li><span>2.1 Multiple Jobs</span></li>
+          <li><span>2.2 Secrets &amp; env</span></li>
+          <li><span>2.3 Matrix Builds</span></li>
+          <li><span>2.4 Caching &amp; Artifacts</span></li>
+        </ul>
+
+        <p class="nav__group nav__group--muted">Level 3 — Advanced</p>
+        <ul class="nav__list nav__list--muted">
+          <li><span>3.1 Reusable Workflows</span></li>
+          <li><span>3.2 Composite Actions</span></li>
+          <li><span>3.3 OIDC &amp; Self-hosted Runners</span></li>
+        </ul>
+
+        <p class="nav__group nav__group--muted">Level 4 — DevSecOps</p>
+        <ul class="nav__list nav__list--muted">
+          <li><span>4.1 Security Scanning</span></li>
+          <li><span>4.2 Docker Build &amp; Push</span></li>
+          <li><span>4.3 Deployment Patterns</span></li>
+        </ul>
+      </nav>
+
+      <div class="sidebar__footer">
+        <span class="dot dot--live"></span>
+        <span class="sidebar__progress">1 of 12 complete</span>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main">
+      <!-- Hero -->
+      <section class="hero">
+        <div class="hero__meta">
+          <span class="chip chip--green">▲ live</span>
+          <span class="chip">started May 18, 2026</span>
+          <span class="chip">by Ketul Patel</span>
+        </div>
+        <h2 class="hero__title">
+          A growing notebook<br />
+          <span class="hero__title-accent">of GitHub Actions,</span><br />
+          built hands-on.
+        </h2>
+        <p class="hero__sub">
+          Each section below is a topic I've actually practiced — written, broken, fixed,
+          and pushed to a runner. The handbook grows as the learning does.
+        </p>
+
+        <div class="hero__stats">
+          <div class="stat">
+            <span class="stat__num">01</span>
+            <span class="stat__label">workflows<br />deployed</span>
+          </div>
+          <div class="stat">
+            <span class="stat__num">12</span>
+            <span class="stat__label">topics<br />planned</span>
+          </div>
+          <div class="stat">
+            <span class="stat__num">04</span>
+            <span class="stat__label">levels<br />total</span>
+          </div>
+          <div class="stat">
+            <span class="stat__num">∞</span>
+            <span class="stat__label">curiosity<br />budget</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Topic 1.1 -->
+      <article class="topic" id="what-is">
+        <header class="topic__header">
+          <span class="topic__number">1.1</span>
+          <h3 class="topic__title">What is GitHub Actions?</h3>
+        </header>
+        <div class="topic__body">
+          <p class="topic__lead">
+            GitHub Actions is a CI/CD platform <em>built into GitHub</em> that automates
+            tasks in your repository — building code, running tests, deploying apps,
+            sending notifications — triggered by events like pushes, pull requests, or schedules.
+          </p>
+
+          <div class="grid grid--terms">
+            <div class="term">
+              <span class="term__key">workflow</span>
+              <span class="term__val">A YAML file in <code>.github/workflows/</code> that defines automated tasks.</span>
+            </div>
+            <div class="term">
+              <span class="term__key">event</span>
+              <span class="term__val">Something that triggers a workflow: push, PR, schedule, manual.</span>
+            </div>
+            <div class="term">
+              <span class="term__key">job</span>
+              <span class="term__val">A set of steps that run on the same runner.</span>
+            </div>
+            <div class="term">
+              <span class="term__key">step</span>
+              <span class="term__val">A single task — either a shell command or an action.</span>
+            </div>
+            <div class="term">
+              <span class="term__key">action</span>
+              <span class="term__val">A reusable unit of code, e.g. <code>actions/checkout@v4</code>.</span>
+            </div>
+            <div class="term">
+              <span class="term__key">runner</span>
+              <span class="term__val">The machine (VM or self-hosted) that executes the job.</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Topic 1.2 -->
+      <article class="topic" id="structure">
+        <header class="topic__header">
+          <span class="topic__number">1.2</span>
+          <h3 class="topic__title">Workflow file structure</h3>
+        </header>
+        <div class="topic__body">
+          <p class="topic__lead">
+            Every workflow follows the same top-level shape:
+            <code>name</code>, <code>on</code>, <code>jobs</code>.
+          </p>
+
+          <div class="code-block">
+            <div class="code-block__header">
+              <span class="code-block__dot code-block__dot--r"></span>
+              <span class="code-block__dot code-block__dot--y"></span>
+              <span class="code-block__dot code-block__dot--g"></span>
+              <span class="code-block__filename">.github/workflows/skeleton.yml</span>
+            </div>
+            <pre><code><span class="k">name</span>: &lt;workflow name&gt;
+<span class="k">on</span>: &lt;trigger&gt;
+<span class="k">jobs</span>:
+  &lt;job-id&gt;:
+    <span class="k">runs-on</span>: &lt;runner&gt;
+    <span class="k">steps</span>:
+      - <span class="k">name</span>: &lt;step name&gt;
+        <span class="k">run</span>: &lt;command&gt;</code></pre>
+          </div>
+
+          <ul class="bullets">
+            <li>YAML is indentation-sensitive — use 2 spaces, no tabs.</li>
+            <li>Steps inside a job run sequentially, top to bottom, on the same runner.</li>
+            <li>Each job starts with a fresh runner — files don't persist between jobs.</li>
+          </ul>
+        </div>
+      </article>
+
+      <!-- Topic 1.3 -->
+      <article class="topic" id="triggers">
+        <header class="topic__header">
+          <span class="topic__number">1.3</span>
+          <h3 class="topic__title">Triggers — when workflows run</h3>
+        </header>
+        <div class="topic__body">
+          <p class="topic__lead">
+            The <code>on:</code> keyword defines what events run a workflow. You can listen
+            to one event or many.
+          </p>
+
+          <div class="code-block">
+            <div class="code-block__header">
+              <span class="code-block__dot code-block__dot--r"></span>
+              <span class="code-block__dot code-block__dot--y"></span>
+              <span class="code-block__dot code-block__dot--g"></span>
+              <span class="code-block__filename">triggers.yml</span>
+            </div>
+            <pre><code><span class="c"># run on push to main</span>
+<span class="k">on</span>:
+  <span class="k">push</span>:
+    <span class="k">branches</span>: [main]
+
+<span class="c"># manual button in Actions tab</span>
+<span class="k">on</span>:
+  <span class="k">workflow_dispatch</span>:
+
+<span class="c"># scheduled — 2:00 AM UTC daily (= 7:30 AM IST)</span>
+<span class="k">on</span>:
+  <span class="k">schedule</span>:
+    - <span class="k">cron</span>: <span class="s">'0 2 * * *'</span>
+
+<span class="c"># multiple triggers combined</span>
+<span class="k">on</span>:
+  <span class="k">push</span>: { branches: [main] }
+  <span class="k">pull_request</span>: { branches: [main] }
+  <span class="k">workflow_dispatch</span>:</code></pre>
+          </div>
+
+          <div class="callout">
+            <span class="callout__label">gotcha</span>
+            Cron schedules run in <strong>UTC</strong>, not local time. IST = UTC + 5:30.
+          </div>
+        </div>
+      </article>
+
+      <!-- Topic 1.4 -->
+      <article class="topic topic--featured" id="first-workflow">
+        <header class="topic__header">
+          <span class="topic__number topic__number--featured">1.4</span>
+          <h3 class="topic__title">My first workflow — running on GitHub's cloud</h3>
+          <span class="badge badge--success">✓ completed</span>
+        </header>
+        <div class="topic__body">
+          <p class="topic__lead">
+            The first workflow I shipped. It spins up a fresh Ubuntu VM, prints a greeting,
+            the current date, and the runner's OS — then tears the VM down.
+          </p>
+
+          <div class="code-block">
+            <div class="code-block__header">
+              <span class="code-block__dot code-block__dot--r"></span>
+              <span class="code-block__dot code-block__dot--y"></span>
+              <span class="code-block__dot code-block__dot--g"></span>
+              <span class="code-block__filename">.github/workflows/01-hello.yml</span>
+            </div>
+            <pre><code><span class="k">name</span>: Hello World
+
+<span class="k">on</span>:
+  <span class="k">push</span>:
+    <span class="k">branches</span>:
+      - main
+
+<span class="k">jobs</span>:
+  <span class="k">greet</span>:
+    <span class="k">runs-on</span>: ubuntu-latest
+    <span class="k">steps</span>:
+      - <span class="k">name</span>: Print greeting
+        <span class="k">run</span>: <span class="s">echo "Hello, GitHub Actions!"</span>
+
+      - <span class="k">name</span>: Print current date
+        <span class="k">run</span>: date
+
+      - <span class="k">name</span>: Print runner OS
+        <span class="k">run</span>: <span class="s">echo "Running on ${{ runner.os }}"</span></code></pre>
+          </div>
+
+          <div class="output">
+            <div class="output__header">runner output</div>
+<pre>Run echo "Hello Github Actions"
+<span class="ok">Hello Github Actions</span>
+
+Run date
+<span class="ok">Mon May 18 15:37:46 UTC 2026</span>
+
+Run echo "running on Linux"
+<span class="ok">running on Linux</span>
+
+Cleaning up orphan processes</pre>
+          </div>
+
+          <div class="learnings">
+            <p class="learnings__title">→ what I noticed</p>
+            <ul class="bullets">
+              <li>Runner timezone is <strong>UTC</strong>. That 15:37 UTC was 21:07 IST on my clock.</li>
+              <li><code>${{ runner.os }}</code> resolved to <code>Linux</code> because <code>runs-on</code> was <code>ubuntu-latest</code>. <code>windows-latest</code> would give <code>Windows</code>.</li>
+              <li>GitHub injects a <code>GITHUB_TOKEN</code> automatically — we'll use it later for API calls and deployments.</li>
+              <li>The VM is destroyed at the end. Anything I want to keep needs artifacts or a registry push.</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- Placeholder for upcoming topics -->
+      <section class="upcoming">
+        <p class="upcoming__title">coming up next</p>
+        <p class="upcoming__sub">Multiple jobs with <code>needs:</code> — parallel vs sequential, and why each matters.</p>
+      </section>
+
+      <!-- Footer -->
+      <footer class="footer">
+        <div class="footer__left">
+          <p class="footer__name">Ketul Patel</p>
+          <p class="footer__role">DevOps &amp; Platform Engineering</p>
+        </div>
+        <div class="footer__links">
+          <a href="https://www.linkedin.com/in/ketulnpatel/" target="_blank" rel="noopener">LinkedIn ↗</a>
+          <a href="https://github.com/ketulnpatel" target="_blank" rel="noopener">GitHub ↗</a>
+          <a href="https://github.com/ketulnpatel/github-actions-handson" target="_blank" rel="noopener">This repo ↗</a>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
